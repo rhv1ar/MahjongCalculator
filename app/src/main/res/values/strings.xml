@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">麻雀電卓</string>
+    <string name="default_wind">東</string>
+    <string name="round_wind_unit">場</string>
+    <string name="seat_wind_unit">家</string>
+    <string name="default_Fan">1</string>
+    <string name="fan_unit">翻</string>
+    <string name="default_Fu">1</string>
+    <string name="fu_unit">符</string>
+    <string name="default_tsumo_total_point">1</string>
+    <string name="default_tsumo_child_point">1</string>
+    <string name="default_tsumo_parent_point">1</string>
+    <string name="point_separator">/</string>
+    <string name="bracket_open">(</string>
+    <string name="bracket_close">)</string>
+
+</resources>

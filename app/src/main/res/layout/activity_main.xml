@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="androidx.core.content.ContextCompat"/>
+        <variable name="viewModel" type="com.yoshino.mahjong.calculator.viewmodels.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorMenuBar"
+        tools:context="com.yoshino.mahjong.calculator.views.MainActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorAccent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMenuBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabBackground="@drawable/indicator_selector">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ツモ" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ロン" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutMenuBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorMenuBar"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout_hand"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_result">
+
+            <TextView
+                android:id="@+id/textViewRoundWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/default_wind"
+                android:text="@{viewModel.observableRoundWind.value}"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rxCommandOnClick="@{viewModel.commandRoundWind}" />
+
+            <TextView
+                android:id="@+id/textViewRoundWindSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/round_wind_unit"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewRoundWind"
+                app:layout_constraintStart_toEndOf="@+id/textViewRoundWind" />
+
+            <TextView
+                android:id="@+id/textViewSeatWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:hint="@string/default_wind"
+                android:text="@{viewModel.observableSeatWind.value}"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewRoundWind"
+                app:layout_constraintStart_toEndOf="@+id/textViewRoundWindSub"
+                app:rxCommandOnClick="@{viewModel.commandSeatWind}" />
+
+            <TextView
+                android:id="@+id/textViewSeatWindSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/seat_wind_unit"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewSeatWind"
+                app:layout_constraintStart_toEndOf="@+id/textViewSeatWind" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:hint="0"
+                android:text="@{viewModel.observableDora.value}"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewSeatWindSub"
+                app:layout_constraintStart_toEndOf="@+id/textViewSeatWindSub"
+                app:rxCommandOnClick="@{viewModel.commandDora}" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:hint="0"
+                android:text="@{viewModel.observableStick100.value}"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                app:layout_constraintStart_toEndOf="@+id/textView21"
+                app:rxCommandOnClick="@{viewModel.commandStick100}" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_hand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:elevation="400dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/imageView_seven"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMenuBar"
+            app:rxCommandOnClick="@{viewModel.commandHand}">
+
+            <TextView
+                android:id="@+id/textView_inner_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:paddingTop="25dp"
+                android:paddingBottom="25dp"
+                android:rotation="90"
+                android:text="Hand"
+                android:textColor='@{ContextCompat.getColor(context, viewModel.observableHandTextColor.value)}'
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:animateLayoutChanges="true"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView_inner_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 0 ? viewModel.observableHandHPos.value.get(0) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="0"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 0 ? viewModel.observableHand.value.get(0) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 1 ? viewModel.observableHandHPos.value.get(1) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="1"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 1 ? viewModel.observableHand.value.get(1) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 2 ? viewModel.observableHandHPos.value.get(2) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="2"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 2 ? viewModel.observableHand.value.get(2) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 3 ? viewModel.observableHandHPos.value.get(3) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="3"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 3 ? viewModel.observableHand.value.get(3) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 4 ? viewModel.observableHandHPos.value.get(4) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="4"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 4 ? viewModel.observableHand.value.get(4) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 5 ? viewModel.observableHandHPos.value.get(5) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="5"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 5 ? viewModel.observableHand.value.get(5) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 6 ? viewModel.observableHandHPos.value.get(6) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="6"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 6 ? viewModel.observableHand.value.get(6) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 7 ? viewModel.observableHandHPos.value.get(7) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="7"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 7 ? viewModel.observableHand.value.get(7) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 8 ? viewModel.observableHandHPos.value.get(8) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="8"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 8 ? viewModel.observableHand.value.get(8) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 9 ? viewModel.observableHandHPos.value.get(9) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="9"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 9 ? viewModel.observableHand.value.get(9) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 10 ? viewModel.observableHandHPos.value.get(10) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="10"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 10 ? viewModel.observableHand.value.get(10) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 11 ? viewModel.observableHandHPos.value.get(11) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="11"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 11 ? viewModel.observableHand.value.get(11) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 12 ? viewModel.observableHandHPos.value.get(12) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="12"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 12 ? viewModel.observableHand.value.get(12) : null}" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="@{viewModel.observableHand.value.size() &gt; 13 ? viewModel.observableHandHPos.value.get(13) : 0}"
+                    android:layout_weight="1"
+                    android:onClick="@{viewModel.selectTile}"
+                    android:scaleType="fitEnd"
+                    android:tag="13"
+                    app:srcCompat="@{viewModel.observableHand.value.size() &gt; 13 ? viewModel.observableHand.value.get(13) : null}" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_call_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@android:color/holo_blue_bright"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout_call_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView_nine"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_hand"
+            app:rxCommandOnClick="@{viewModel.commandCall1}">
+
+            <TextView
+                android:id="@id/textView_inner_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:rotation="90"
+                android:text="Call 1"
+                android:textColor='@{ContextCompat.getColor(context, viewModel.observableCall1TextColor.value)}'
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView_inner_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall1.value.size() &gt; 0 ? viewModel.observableCall1.value.get(0) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall1.value.size() &gt; 1 ? viewModel.observableCall1.value.get(1) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall1.value.size() &gt; 2 ? viewModel.observableCall1.value.get(2) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall1.value.size() &gt; 3 ? viewModel.observableCall1.value.get(3) : null}" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_call_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:background="@android:color/holo_green_light"
+            android:elevation="400dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout_call_3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView_six"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_call_1"
+            app:rxCommandOnClick="@{viewModel.commandCall2}">
+
+            <TextView
+                android:id="@+id/textView_inner_text_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:rotation="90"
+                android:text="Call 2"
+                android:textColor='@{ContextCompat.getColor(context, viewModel.observableCall2TextColor.value)}'
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView_inner_text_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall2.value.size() &gt; 0 ? viewModel.observableCall2.value.get(0) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall2.value.size() &gt; 1 ? viewModel.observableCall2.value.get(1) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall2.value.size() &gt; 2 ? viewModel.observableCall2.value.get(2) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall2.value.size() &gt; 3 ? viewModel.observableCall2.value.get(3) : null}" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_call_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:background="@android:color/holo_orange_dark"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout_call_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView_three"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_call_2"
+            app:rxCommandOnClick="@{viewModel.commandCall3}">
+
+            <TextView
+                android:id="@+id/textView_inner_text_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:rotation="90"
+                android:text="Call 3"
+                android:textColor='@{ContextCompat.getColor(context, viewModel.observableCall3TextColor.value)}'
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView_inner_text_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall3.value.size() &gt; 0 ? viewModel.observableCall3.value.get(0) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall3.value.size() &gt; 1 ? viewModel.observableCall3.value.get(1) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall3.value.size() &gt; 2 ? viewModel.observableCall3.value.get(2) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall3.value.size() &gt; 3 ? viewModel.observableCall3.value.get(3) : null}" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_call_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:background="@android:color/holo_purple"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView_backspace"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_call_3"
+            app:rxCommandOnClick="@{viewModel.commandCall4}">
+
+            <TextView
+                android:id="@+id/textView_inner_text_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:rotation="90"
+                android:text="Call 4"
+                android:textAllCaps="false"
+                android:textColor='@{ContextCompat.getColor(context, viewModel.observableCall4TextColor.value)}'
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView_inner_text_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall4.value.size() &gt; 0 ? viewModel.observableCall4.value.get(0) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall4.value.size() &gt; 1 ? viewModel.observableCall4.value.get(1) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall4.value.size() &gt; 2 ? viewModel.observableCall4.value.get(2) : null}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@{viewModel.observableCall4.value.size() &gt; 3 ? viewModel.observableCall4.value.get(3) : null}" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView_one"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p1"
+            android:tag="1"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_dragon"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_four"
+            app:layout_constraintStart_toStartOf="@+id/imageView_four"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_four" />
+
+        <ImageView
+            android:id="@+id/imageView_two"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p2"
+            android:tag="2"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_wind"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_five"
+            app:layout_constraintStart_toStartOf="@+id/imageView_five"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_five" />
+
+        <ImageView
+            android:id="@+id/imageView_three"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p3"
+            android:tag="3"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_backspace"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_six"
+            app:layout_constraintStart_toStartOf="@+id/imageView_six"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_six" />
+
+        <ImageView
+            android:id="@+id/imageView_four"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p4"
+            android:tag="4"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_one"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_seven"
+            app:layout_constraintStart_toStartOf="@+id/imageView_seven"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_seven" />
+
+        <ImageView
+            android:id="@+id/imageView_five"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p5"
+            android:tag="5"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_two"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_eight"
+            app:layout_constraintStart_toStartOf="@+id/imageView_eight"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_eight" />
+
+        <ImageView
+            android:id="@+id/imageView_six"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p6"
+            android:tag="6"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_three"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_nine"
+            app:layout_constraintStart_toStartOf="@+id/imageView_nine"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_nine" />
+
+        <ImageView
+            android:id="@+id/imageView_seven"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p7"
+            android:tag="7"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_four"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_hand" />
+
+        <ImageView
+            android:id="@+id/imageView_eight"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p8"
+            android:tag="8"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_five"
+            app:layout_constraintStart_toEndOf="@+id/imageView_seven"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout_hand" />
+
+        <ImageView
+            android:id="@+id/imageView_nine"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/p9"
+            android:tag="9"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_six"
+            app:layout_constraintStart_toEndOf="@+id/imageView_eight"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_hand" />
+
+        <ImageView
+            android:id="@+id/imageView_wind"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:src="@mipmap/j1"
+            android:tag="10"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_two"
+            app:layout_constraintStart_toStartOf="@+id/imageView_two"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_two" />
+
+        <ImageView
+            android:id="@+id/imageView_dragon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="10dp"
+            android:layout_marginTop="1dp"
+            android:src="@mipmap/j5"
+            android:tag="11"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_one"
+            app:layout_constraintStart_toStartOf="@+id/imageView_one"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_one" />
+
+        <ImageView
+            android:id="@+id/imageView_backspace"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:onLongClick="@{() -> viewModel.onLongClickBackSpace()}"
+            android:padding="10dp"
+            android:src="@mipmap/backspace"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_wind"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_three"
+            app:layout_constraintStart_toStartOf="@+id/imageView_three"
+            app:layout_constraintTop_toTopOf="@id/imageView_wind"
+            app:rxCommandOnClick="@{viewModel.commandRemove}" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
