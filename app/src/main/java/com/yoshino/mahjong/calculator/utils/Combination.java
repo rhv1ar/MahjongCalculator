@@ -52,7 +52,7 @@ public class Combination {
     return mType;
   }
 
-  // 上がり牌
+  // 和了牌
   private Tile mHoraTile;
   Tile getHoraTile() {
     return mHoraTile;

@@ -23,14 +23,14 @@ import com.yoshino.mahjong.calculator.BorderedCircleTransform;
 import com.yoshino.mahjong.calculator.FlickListener;
 import com.yoshino.mahjong.calculator.R;
 import com.yoshino.mahjong.calculator.databinding.ActivityMainBinding;
-import com.yoshino.mahjong.calculator.models.ResultModel;
 import com.yoshino.mahjong.calculator.models.PlayerModel;
+import com.yoshino.mahjong.calculator.models.ResultModel;
 import com.yoshino.mahjong.calculator.utils.Tile;
 import com.yoshino.mahjong.calculator.viewmodels.MainViewModel;
+import java.util.ArrayList;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     Picasso.get().load(R.mipmap.p7).transform(transform).into((ImageView)findViewById(R.id.imageView_seven));
     Picasso.get().load(R.mipmap.p8).transform(transform).into((ImageView)findViewById(R.id.imageView_eight));
     Picasso.get().load(R.mipmap.p9).transform(transform).into((ImageView)findViewById(R.id.imageView_nine));
+    Picasso.get().load(R.mipmap.j5).transform(transform).into((ImageView)findViewById(R.id.imageView_dragon));
+    Picasso.get().load(R.mipmap.j1).transform(transform).into((ImageView)findViewById(R.id.imageView_wind));
 
   }
 
@@ -148,9 +150,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
       String tag = (String) view.getTag();
       int index = Integer.parseInt(tag) - 1;
 
+      // Initialize Picasso for circle view
+      BorderedCircleTransform transform = new BorderedCircleTransform(Color.GRAY, 1);
+
       // show top image
       mImageTop = new ImageView(MainActivity.this);
       mImageTop.setImageResource(TILES[index][1].getImageId());
+      Picasso.get().load(TILES[index][1].getImageId()).transform(transform).into(mImageTop);
       ConstraintLayout.LayoutParams paramsTop = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
       paramsTop.startToStart = view.getId();
       paramsTop.endToEnd = view.getId();
@@ -161,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
       // show right image
       mImageRight = new ImageView(MainActivity.this);
       mImageRight.setImageResource(TILES[index][2].getImageId());
+      Picasso.get().load(TILES[index][2].getImageId()).transform(transform).into(mImageRight);
       ConstraintLayout.LayoutParams paramsRight = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
       paramsRight.startToEnd = view.getId();
       paramsRight.topToTop = view.getId();
@@ -172,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
       if (TILES[index].length == 4) {
         mImageLeft = new ImageView(MainActivity.this);
         mImageLeft.setImageResource(TILES[index][3].getImageId());
+        Picasso.get().load(TILES[index][3].getImageId()).transform(transform).into(mImageLeft);
         ConstraintLayout.LayoutParams paramsLeft = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsLeft.endToStart = view.getId();
         paramsLeft.topToTop = view.getId();

@@ -2,18 +2,16 @@ package com.yoshino.mahjong.calculator;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import com.yoshino.mahjong.calculator.models.BoardModel;
-import com.yoshino.mahjong.calculator.utils.Combination;
+import com.yoshino.mahjong.calculator.models.PlayerModel;
 import com.yoshino.mahjong.calculator.utils.Call;
-import com.yoshino.mahjong.calculator.utils.FanCalculator;
-import com.yoshino.mahjong.calculator.utils.FuCalculator;
+import com.yoshino.mahjong.calculator.utils.Combination;
 import com.yoshino.mahjong.calculator.utils.Hand;
 import com.yoshino.mahjong.calculator.utils.Mentsu;
-import com.yoshino.mahjong.calculator.models.PlayerModel;
 import com.yoshino.mahjong.calculator.utils.Tile;
 
 import static com.yoshino.mahjong.calculator.MyException.*;
+import java.util.ArrayList;
 
 
 public class Calculator extends ArrayList<Combination> {
@@ -54,9 +52,10 @@ public class Calculator extends ArrayList<Combination> {
     pick7Pairs(hand.toSerialNumArray(), horaTile);
     pick13Orphans(hand.toSerialNumArray(), horaTile);
 
+    // Remove cache of previous result
+    mTsumoComb = null;
+    mRonComb = null;
     for (Combination comb : this) {
-      mTsumoComb = null;
-      mRonComb = null;
       Combination tsumoComb = comb.calculate(mPlayerModel, mBoardModel, true);
       Combination ronComb = comb.calculate(mPlayerModel, mBoardModel, false);
 
@@ -76,8 +75,12 @@ public class Calculator extends ArrayList<Combination> {
       }
     }
 
-    mTsumoComb.print();
-    mRonComb.print();
+    if (mTsumoComb != null) {
+      mTsumoComb.print();
+    }
+    if (mRonComb != null) {
+      mRonComb.print();
+    }
   }
 
 
@@ -115,7 +118,7 @@ public class Calculator extends ArrayList<Combination> {
   }
 
   private void pickNormal(final int[] hand, final ArrayList<Call> callList, final Tile horaTile) {
-    for(int head = 0; head < 38; head++) {
+    for (int head = 0; head < 38; head++) {
       int[] handTemp = hand.clone();
       // find head in hand
       if (handTemp[head] >= 2) {

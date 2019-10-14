@@ -60,4 +60,13 @@ public abstract class Tiles extends ArrayList<Tile> implements Serializable {
     return list;
   }
 
+  public void print() {
+    StringBuilder sb = new StringBuilder();
+    for (Tile tile : this) {
+      sb.append(tile.getName());
+      sb.append("|");
+    }
+    Log.v(TAG, sb.toString());
+  }
+
 }
